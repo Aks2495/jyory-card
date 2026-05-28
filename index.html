@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0a1230" />
+<title>Jyory — Digital Cards</title>
+<meta name="description" content="Jyory by JY Sanghvi — Jewellery & Diamond. Tap to connect, save contact, or message on WhatsApp." />
+<meta property="og:title" content="Jyory by JY Sanghvi" />
+<meta property="og:description" content="Fine Jewellery & Certified Diamonds — Surat" />
+<meta property="og:type" content="profile" />
+
+<!--
+============================================================
+  OPTIONAL: free visitor analytics (off by default).
+  1) Sign up free at https://www.goatcounter.com (pick a code, e.g. "jyory")
+  2) Uncomment the line below and replace YOURCODE.
+  3) See views at https://YOURCODE.goatcounter.com
+  <script data-goatcounter="https://YOURCODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+============================================================
+-->
+
+<!--
+============================================================
+  EDIT EVERYTHING HERE.  Two blocks:
+    SETTINGS  — shared theme, lead-capture target, QR options
+    CARDS     — your cards (currently: akshay, store). Add up to 5.
+  Each card has its own URL:  index.html?card=akshay  /  ?card=store
+============================================================
+-->
+<script>
+const SETTINGS = {
+  defaultCard:  "akshay",     // which card shows when no ?card= is given
+  defaultTheme: "dark",       // "dark" or "light"
+
+  // Where lead-capture form submissions are sent (opens pre-filled WhatsApp).
+  // Country code + number, NO "+", NO spaces.
+  leadWhatsApp: "918000838898",
+
+  // Public base URL of this card once deployed (used for the QR code + Share).
+  // Leave "" to auto-detect from the browser address bar — fine once hosted.
+  publicUrl: "https://aks2495.github.io/jyory-card/",
+
+  // QR code colours (dark modules / light background). Keep high contrast
+  // so phones scan reliably. Hex WITHOUT the leading #.
+  qr: { dark: "0d153a", light: "ffffff" },
+
+  // Theme palettes (match the printed JY Sanghvi card)
+  themes: {
+    dark: {
+      bg1:"#070d24", bg2:"#0a1230", card:"#0e1638", cardEdge:"#1a2350",
+      surface:"rgba(255,255,255,.03)", surfaceHover:"rgba(246,210,122,.08)",
+      border:"rgba(255,255,255,.06)", borderHover:"rgba(246,210,122,.3)",
+      gold1:"#f6d27a", gold2:"#c9962f", text:"#f5efe0", muted:"#a8b0c7", ctaText:"#0a1230",
+    },
+    light: {
+      bg1:"#faf6ec", bg2:"#ede2c8", card:"#ffffff", cardEdge:"#e6dcc2",
+      surface:"#faf5e8", surfaceHover:"#f3e9cf",
+      border:"#ece2c8", borderHover:"#c9962f",
+      gold1:"#c9962f", gold2:"#8a6510", text:"#1d1a2c", muted:"#6b6478", ctaText:"#ffffff",
+    },
+  },
+};
+
+const CARDS = {
+  // ——————————————————— CARD 1: Akshay (personal) ———————————————————
+  akshay: {
+    tabLabel:  "Akshay",
+    logo:      "logo.png",            // file next to index.html; blank "" = SVG mark
+    fullName:  "Akshay Sanghvi",
+    firstName: "Akshay",
+    lastName:  "Sanghvi",
+    title:     "Founder",
+    company:   "Jyory by JY Sanghvi",
+    tagline:   "Jewellery  |  Diamond",
+    location:  "Surat, India",
+    about:     "Crafting timeless jewellery & certified diamonds. Tap any button below to connect, save my contact, or visit Jyory.",
+    phone:     "+918306060575",
+    whatsapp:  "918000838898",
+    email:     "Info.jysanghvi@gmail.com",
+    website:   "https://www.jyory.com/",
+    links: [
+      { type:"whatsapp",  label:"WhatsApp",  value:"Chat with me",              url:"https://wa.me/918000838898" },
+      { type:"phone",     label:"Call",      value:"+91 83060 60575",           url:"tel:+918306060575" },
+      { type:"email",     label:"Email",     value:"Info.jysanghvi@gmail.com",  url:"mailto:Info.jysanghvi@gmail.com" },
+      { type:"website",   label:"Website",   value:"www.jyory.com",             url:"https://www.jyory.com/" },
+      { type:"instagram", label:"Instagram", value:"@jyory.jewels",             url:"https://www.instagram.com/jyory.jewels/" },
+      { type:"linkedin",  label:"LinkedIn",  value:"Jyory",                     url:"https://www.linkedin.com/company/Jyory/" },
+      { type:"github",    label:"GitHub",    value:"Aks2495",                   url:"https://github.com/Aks2495" },
+      { type:"location",  label:"Location",  value:"Surat, India",              url:"https://www.google.com/maps/search/?api=1&query=Surat,India" },
+      // More platforms — uncomment + add your URL:
+      // { type:"youtube",   label:"YouTube",   value:"@jyory",  url:"https://www.youtube.com/@jyory" },
+      // { type:"facebook",  label:"Facebook",  value:"Jyory",   url:"https://www.facebook.com/jyory" },
+      // { type:"pinterest", label:"Pinterest", value:"@jyory",  url:"https://www.pinterest.com/jyory/" },
+      // { type:"twitter",   label:"X",         value:"@jyory",  url:"https://x.com/jyory" },
+    ],
+  },
+
+  // ——————————————————— CARD 2: Jyory (store / brand) ———————————————————
+  store: {
+    tabLabel:  "Jyory Store",
+    logo:      "logo.png",
+    fullName:  "JYORY",
+    firstName: "Jyory",
+    lastName:  "",
+    title:     "Fine Jewellery & Diamonds",
+    company:   "By J Y Sanghvi",
+    tagline:   "Jewellery  |  Diamond",
+    location:  "Surat, India",
+    about:     "Certified diamonds & bespoke gold jewellery, crafted in Surat. Explore our collections or book a private viewing.",
+    phone:     "+918306060575",
+    whatsapp:  "918000838898",
+    email:     "Info.jysanghvi@gmail.com",
+    website:   "https://www.jyory.com/",
+    links: [
+      { type:"website",   label:"Shop Online", value:"www.jyory.com",            url:"https://www.jyory.com/" },
+      { type:"instagram", label:"Instagram",   value:"@jyory.jewels",            url:"https://www.instagram.com/jyory.jewels/" },
+      { type:"whatsapp",  label:"WhatsApp",    value:"Enquire now",              url:"https://wa.me/918000838898" },
+      { type:"phone",     label:"Call",        value:"+91 83060 60575",          url:"tel:+918306060575" },
+      { type:"email",     label:"Email",       value:"Info.jysanghvi@gmail.com", url:"mailto:Info.jysanghvi@gmail.com" },
+      { type:"location",  label:"Visit Us",    value:"Surat, India",             url:"https://www.google.com/maps/search/?api=1&query=Surat,India" },
+      { type:"linkedin",  label:"LinkedIn",    value:"Jyory",                    url:"https://www.linkedin.com/company/Jyory/" },
+    ],
+  },
+};
+</script>
+
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(201,150,47,.18), transparent 60%),
+      linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+    background-attachment:fixed;
+    min-height:100dvh;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    padding:18px 16px 56px;display:flex;flex-direction:column;align-items:center;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:
+      linear-gradient(135deg, rgba(255,255,255,.025) 25%, transparent 25%),
+      linear-gradient(225deg, rgba(255,255,255,.02) 25%, transparent 25%);
+    background-size:60px 60px;mix-blend-mode:overlay;opacity:.5;
+  }
+
+  /* ---------- Card switcher ---------- */
+  .switcher{
+    position:relative;z-index:1;display:flex;gap:6px;
+    margin-bottom:14px;padding:5px;border-radius:999px;
+    background:var(--surface);border:1px solid var(--border);
+    max-width:440px;width:100%;
+  }
+  .switcher button{
+    flex:1;padding:9px 10px;border:0;cursor:pointer;border-radius:999px;
+    font-family:inherit;font-size:12.5px;font-weight:600;letter-spacing:.3px;
+    color:var(--muted);background:transparent;transition:all .18s ease;
+  }
+  .switcher button.active{
+    color:var(--cta-text);
+    background:linear-gradient(135deg,var(--gold1),var(--gold2));
+    box-shadow:0 6px 16px -6px rgba(201,150,47,.6);
+  }
+
+  /* ---------- Card ---------- */
+  .card{
+    position:relative;z-index:1;width:100%;max-width:440px;
+    background:linear-gradient(180deg, var(--card) 0%, #0b1230 100%);
+    border:1px solid var(--card-edge);border-radius:28px;overflow:hidden;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.03) inset;
+  }
+  [data-theme="light"] .card{background:linear-gradient(180deg,#fff 0%,#fbf6ea 100%)}
+  .card::before,.card::after{
+    content:"";position:absolute;top:50%;width:10px;height:120px;
+    background:linear-gradient(180deg,var(--gold1),var(--gold2));
+    transform:translateY(-50%);box-shadow:0 0 24px rgba(246,210,122,.35);
+  }
+  .card::before{left:0;border-radius:0 6px 6px 0}
+  .card::after{right:0;border-radius:6px 0 0 6px}
+
+  /* ---------- Theme toggle ---------- */
+  .theme-toggle{
+    position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;
+    background:var(--surface);border:1px solid var(--border);color:var(--gold1);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:transform .2s ease, background .2s ease, border-color .2s ease;
+  }
+  .theme-toggle:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:rotate(15deg)}
+  .theme-toggle svg{width:18px;height:18px}
+  [data-theme="dark"]  .theme-toggle .sun{display:none}
+  [data-theme="dark"]  .theme-toggle .moon{display:block}
+  [data-theme="light"] .theme-toggle .moon{display:none}
+  [data-theme="light"] .theme-toggle .sun{display:block}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:34px 28px 22px;text-align:center;position:relative}
+  .avatar{
+    width:260px;max-width:100%;height:120px;margin:0 auto 18px;border-radius:18px;
+    background:linear-gradient(135deg, #11183a 0%, #070d24 100%);
+    border:1px solid rgba(246,210,122,.25);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 14px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+    overflow:hidden;position:relative;padding:14px;
+  }
+  .avatar img{max-width:100%;max-height:100%;object-fit:contain;display:block;opacity:0;transition:opacity .25s ease}
+  .avatar img.loaded{opacity:1}
+  .avatar img.loaded ~ .logo-mark{display:none}
+  .logo-mark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .logo-mark svg{width:74px;height:74px}
+
+  .name{
+    font-family:'Cormorant Garamond','Playfair Display',Georgia,serif;
+    font-size:32px;font-weight:600;letter-spacing:.5px;line-height:1.1;
+    background:linear-gradient(180deg,var(--gold1),var(--gold2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .title{margin-top:6px;font-size:14px;font-weight:500;color:var(--muted);letter-spacing:.3px}
+  .company{margin-top:2px;font-size:13px;color:var(--text);opacity:.85}
+  .tagline{
+    margin-top:14px;display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:3px;
+    color:var(--gold1);padding:7px 14px;border:1px solid rgba(246,210,122,.3);border-radius:999px;
+    background:rgba(246,210,122,.06);
+  }
+  .about{margin:18px auto 0;max-width:340px;font-size:13.5px;line-height:1.55;color:var(--muted)}
+
+  /* ---------- Buttons ---------- */
+  .cta{padding:8px 24px 4px;display:flex;flex-direction:column;gap:10px}
+  .btn{
+    width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+    padding:15px 18px;border:0;cursor:pointer;border-radius:16px;
+    font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.3px;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn svg{width:18px;height:18px}
+  .btn-primary{
+    color:var(--cta-text);background:linear-gradient(135deg,var(--gold1) 0%,var(--gold2) 100%);
+    box-shadow:0 14px 30px -10px rgba(201,150,47,.55), inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 18px 36px -10px rgba(201,150,47,.7),inset 0 1px 0 rgba(255,255,255,.5)}
+  .btn-ghost{color:var(--text);background:var(--surface);border:1px solid var(--border-hover)}
+  .btn-ghost:hover{background:var(--surface-hover);transform:translateY(-1px)}
+
+  /* ---------- Quick actions ---------- */
+  .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:18px 24px 4px}
+  .quick a{
+    display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:14px;
+    background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:11px;font-weight:500;
+    transition:background .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .quick a:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:translateY(-1px)}
+  .quick a svg{width:20px;height:20px;color:var(--gold1)}
+
+  /* ---------- Links ---------- */
+  .links{padding:18px 24px 8px;display:flex;flex-direction:column;gap:10px}
+  .link{
+    display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;
+    background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none;
+    transition:background .15s ease, transform .15s ease, border-color .15s ease;
+  }
+  .link:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:translateY(-1px)}
+  .link .icon{
+    flex:0 0 40px;width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, rgba(246,210,122,.18), rgba(201,150,47,.08));border:1px solid rgba(246,210,122,.2);
+  }
+  .link .icon svg{width:20px;height:20px;color:var(--gold1)}
+  .link .meta{flex:1;min-width:0}
+  .link .label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .link .value{font-size:14px;font-weight:500;margin-top:2px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .link .chev{flex:0 0 auto;color:var(--muted);opacity:.6}
+
+  /* ---------- Lead capture form ---------- */
+  .lead{padding:8px 24px 4px;overflow:hidden;max-height:0;opacity:0;transition:max-height .35s ease, opacity .3s ease}
+  .lead.open{max-height:560px;opacity:1;padding-top:14px}
+  .lead h3{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--gold1);margin-bottom:4px}
+  .lead p{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+  .lead .field{margin-bottom:10px}
+  .lead label{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;letter-spacing:.3px}
+  .lead input,.lead textarea{
+    width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);
+    background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;outline:none;
+    transition:border-color .15s ease;
+  }
+  .lead input:focus,.lead textarea:focus{border-color:var(--border-hover)}
+  .lead textarea{resize:vertical;min-height:64px}
+
+  /* ---------- QR code ---------- */
+  .qr-section{padding:18px 24px 22px;text-align:center}
+  .qr-frame{
+    display:inline-flex;flex-direction:column;align-items:center;gap:10px;
+    padding:16px;border-radius:20px;
+    background:linear-gradient(135deg,var(--gold1),var(--gold2));
+    box-shadow:0 16px 34px -14px rgba(201,150,47,.6);
+  }
+  .qr-frame .qr-box{background:#fff;border-radius:12px;padding:10px;line-height:0}
+  .qr-frame img{width:160px;height:160px;display:block}
+  .qr-frame .scan{font-size:11px;font-weight:700;letter-spacing:3px;color:#0a1230}
+  .qr-actions{margin-top:12px;display:flex;gap:8px;justify-content:center}
+  .qr-actions button{
+    display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);padding:9px 14px;border-radius:999px;font-family:inherit;font-size:12px;cursor:pointer;
+    transition:border-color .15s ease,background .15s ease;
+  }
+  .qr-actions button:hover{border-color:var(--border-hover);background:var(--surface-hover)}
+  .qr-actions svg{width:14px;height:14px;color:var(--gold1)}
+
+  /* ---------- Footer ---------- */
+  .foot{text-align:center;padding:6px 24px 26px;color:var(--muted);font-size:11px;letter-spacing:1px}
+  .foot .brand{color:var(--gold1);font-weight:600;letter-spacing:2px}
+  .share-btn{
+    display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:none;border:1px solid var(--border);
+    color:var(--muted);padding:8px 14px;border-radius:999px;font-family:inherit;font-size:11px;letter-spacing:1px;cursor:pointer;
+    transition:color .15s ease,border-color .15s ease;
+  }
+  .share-btn:hover{color:var(--gold1);border-color:var(--border-hover)}
+  .share-btn svg{width:13px;height:13px}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);
+    background:var(--card);color:var(--text);padding:12px 18px;border-radius:12px;border:1px solid var(--border-hover);
+    font-size:13px;opacity:0;transition:opacity .25s ease, transform .25s ease;pointer-events:none;z-index:10;
+    box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90vw;text-align:center;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  @media (max-width:380px){
+    .name{font-size:28px}
+    .quick a{padding:10px 4px;font-size:10.5px}
+  }
+
+  :root{
+    --bg1:#070d24;--bg2:#0a1230;--card:#0e1638;--card-edge:#1a2350;
+    --surface:rgba(255,255,255,.03);--surface-hover:rgba(246,210,122,.08);
+    --border:rgba(255,255,255,.06);--border-hover:rgba(246,210,122,.3);
+    --gold1:#f6d27a;--gold2:#c9962f;--text:#f5efe0;--muted:#a8b0c7;--cta-text:#0a1230;
+  }
+</style>
+</head>
+<body>
+
+<!-- Card switcher (rendered from CARDS) -->
+<nav class="switcher" id="switcher"></nav>
+
+<main class="card" id="card">
+  <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme" title="Toggle theme">
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg class="sun"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.93" y1="4.93" x2="7.05" y2="7.05"/><line x1="16.95" y1="16.95" x2="19.07" y2="19.07"/><line x1="4.93" y1="19.07" x2="7.05" y2="16.95"/><line x1="16.95" y1="7.05" x2="19.07" y2="4.93"/></svg>
+  </button>
+
+  <section class="hero">
+    <div class="avatar" aria-hidden="true">
+      <img id="avatarImg" alt="" />
+      <div class="logo-mark">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#e8e9ef"/><stop offset="100%" stop-color="#9ea3b5"/></linearGradient>
+            <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f6d27a"/><stop offset="100%" stop-color="#c9962f"/></linearGradient>
+          </defs>
+          <path d="M50 8 L92 42 L50 92 L8 42 Z" fill="none" stroke="url(#silver)" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M40 32 L56 32 L56 60 Q56 70 46 70 Q38 70 36 62" fill="none" stroke="url(#silver)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M58 38 L66 50 L74 38 M66 50 L66 66" fill="none" stroke="url(#gold)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <h1 class="name" id="name"></h1>
+    <p class="title" id="title"></p>
+    <p class="company" id="company"></p>
+    <span class="tagline" id="tagline"></span>
+    <p class="about" id="about"></p>
+  </section>
+
+  <div class="cta">
+    <button class="btn btn-primary" id="saveBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Save Contact
+    </button>
+    <button class="btn btn-ghost" id="exchangeBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      Exchange Contact
+    </button>
+  </div>
+
+  <!-- Lead capture form (sends to WhatsApp) -->
+  <form class="lead" id="leadForm">
+    <h3>Share your details</h3>
+    <p>I'll receive these on WhatsApp and get back to you.</p>
+    <div class="field"><label>Your name *</label><input type="text" id="leadName" autocomplete="name" required /></div>
+    <div class="field"><label>Phone *</label><input type="tel" id="leadPhone" autocomplete="tel" required /></div>
+    <div class="field"><label>Email</label><input type="email" id="leadEmail" autocomplete="email" /></div>
+    <div class="field"><label>Message</label><textarea id="leadNote" placeholder="What are you looking for?"></textarea></div>
+    <button type="submit" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.93 11.93 0 0 0 12.04 0C5.5 0 .2 5.3.2 11.84c0 2.08.55 4.12 1.6 5.92L0 24l6.4-1.68a11.83 11.83 0 0 0 5.64 1.44c6.54 0 11.84-5.3 11.84-11.84 0-3.16-1.23-6.13-3.37-8.44z"/></svg>
+      Send via WhatsApp
+    </button>
+  </form>
+
+  <nav class="quick" id="quick"></nav>
+  <nav class="links" id="links"></nav>
+
+  <!-- Branded QR -->
+  <section class="qr-section">
+    <div class="qr-frame">
+      <div class="qr-box"><img id="qrImg" alt="QR code to this card" /></div>
+      <span class="scan">SCAN TO CONNECT</span>
+    </div>
+    <div class="qr-actions">
+      <button id="qrDownload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download QR</button>
+      <button id="qrCopy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy Link</button>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="brand">JYORY</div>
+    <div style="margin-top:4px">BY J Y SANGHVI</div>
+    <button class="share-btn" id="shareBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+      Share this card
+    </button>
+  </footer>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ICONS = {
+  whatsapp:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.93 11.93 0 0 0 12.04 0C5.5 0 .2 5.3.2 11.84c0 2.08.55 4.12 1.6 5.92L0 24l6.4-1.68a11.83 11.83 0 0 0 5.64 1.44h.01c6.54 0 11.84-5.3 11.84-11.84 0-3.16-1.23-6.13-3.37-8.44zM12.04 21.7h-.01a9.84 9.84 0 0 1-5.02-1.38l-.36-.21-3.8 1 1.02-3.7-.24-.38a9.84 9.84 0 0 1-1.5-5.21c0-5.43 4.42-9.85 9.86-9.85a9.78 9.78 0 0 1 6.97 2.89 9.78 9.78 0 0 1 2.88 6.97c0 5.43-4.42 9.86-9.85 9.86zm5.4-7.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.66.15-.2.3-.76.96-.93 1.15-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.18-.24-.57-.48-.5-.66-.5-.17-.01-.37-.01-.57-.01s-.52.07-.79.37c-.27.3-1.04 1.02-1.04 2.47 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.1 4.49.71.3 1.27.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.4.25-.7.25-1.29.17-1.4-.07-.13-.27-.2-.57-.35z"/></svg>',
+  phone:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>',
+  email:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+  website:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+  linkedin:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.36-1.85c3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>',
+  github:    '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.04c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.1-.78.42-1.3.76-1.6-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.31-.54-1.52.11-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.87.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 0z"/></svg>',
+  location:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  youtube:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>',
+  facebook:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.68 0H1.32C.59 0 0 .59 0 1.32v21.36C0 23.41.59 24 1.32 24h11.5v-9.29H9.69v-3.62h3.13V8.41c0-3.1 1.9-4.79 4.66-4.79 1.32 0 2.46.1 2.79.14v3.24h-1.91c-1.5 0-1.8.71-1.8 1.76v2.31h3.59l-.47 3.62h-3.12V24h6.12c.73 0 1.32-.59 1.32-1.32V1.32C24 .59 23.41 0 22.68 0z"/></svg>',
+  twitter:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.5 8.57L23 22h-6.83l-5.36-7-6.13 7H1.43l8.02-9.17L1 2h6.99l4.84 6.4L18.24 2zm-2.4 18h1.88L7.27 4H5.27l10.57 16z"/></svg>',
+  pinterest: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.16 9.43 7.62 11.18-.1-.95-.2-2.4.04-3.43.22-.94 1.4-5.95 1.4-5.95s-.36-.72-.36-1.78c0-1.67.97-2.92 2.17-2.92 1.02 0 1.52.77 1.52 1.69 0 1.03-.66 2.57-1 4-.28 1.2.6 2.18 1.78 2.18 2.14 0 3.78-2.26 3.78-5.51 0-2.88-2.07-4.89-5.03-4.89-3.43 0-5.44 2.57-5.44 5.23 0 1.04.4 2.15.9 2.75.1.12.11.22.08.34l-.34 1.36c-.05.22-.18.27-.41.16-1.52-.7-2.46-2.92-2.46-4.7 0-3.83 2.78-7.34 8.02-7.34 4.21 0 7.48 3 7.48 7 0 4.18-2.64 7.55-6.3 7.55-1.23 0-2.39-.64-2.78-1.4l-.76 2.88c-.27 1.06-1.01 2.4-1.51 3.21A12 12 0 1 0 12 0z"/></svg>',
+  custom:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+};
+const CHEVRON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="chev" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+
+/* ---------------- Theme ---------------- */
+const THEME_KEY = 'jyory-card-theme';
+function applyTheme(name){
+  const t = SETTINGS.themes[name] || SETTINGS.themes.dark;
+  const r = document.documentElement.style;
+  for (const [k,v] of Object.entries({
+    '--bg1':t.bg1,'--bg2':t.bg2,'--card':t.card,'--card-edge':t.cardEdge,
+    '--surface':t.surface,'--surface-hover':t.surfaceHover,'--border':t.border,'--border-hover':t.borderHover,
+    '--gold1':t.gold1,'--gold2':t.gold2,'--text':t.text,'--muted':t.muted,'--cta-text':t.ctaText
+  })) r.setProperty(k,v);
+  document.documentElement.setAttribute('data-theme', name);
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', t.bg2);
+  try { localStorage.setItem(THEME_KEY, name); } catch(_){}
+}
+
+/* ---------------- Helpers ---------------- */
+function currentCardId(){
+  const id = new URLSearchParams(location.search).get('card');
+  return CARDS[id] ? id : SETTINGS.defaultCard;
+}
+function cardUrl(id){
+  const base = SETTINGS.publicUrl || (location.origin + location.pathname);
+  return `${base}?card=${id}`;
+}
+
+/* ---------------- Render ---------------- */
+let activeId = currentCardId();
+
+function renderSwitcher(){
+  const ids = Object.keys(CARDS);
+  const el = document.getElementById('switcher');
+  if (ids.length < 2){ el.style.display='none'; return; }
+  el.innerHTML = ids.map(id =>
+    `<button data-id="${id}" class="${id===activeId?'active':''}">${CARDS[id].tabLabel || id}</button>`
+  ).join('');
+  el.querySelectorAll('button').forEach(b =>
+    b.addEventListener('click', () => switchCard(b.dataset.id))
+  );
+}
+
+function switchCard(id){
+  if (!CARDS[id]) return;
+  activeId = id;
+  history.replaceState(null, '', cardUrl(id));
+  renderSwitcher();
+  renderCard();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function renderCard(){
+  const C = CARDS[activeId];
+
+  // logo (img on top; SVG mark shows behind when img isn't loaded)
+  const img = document.getElementById('avatarImg');
+  img.classList.remove('loaded');
+  if (C.logo){
+    img.onload  = () => img.classList.add('loaded');
+    img.onerror = () => img.classList.remove('loaded');   // SVG fallback shows
+    img.alt = C.company || C.fullName;
+    img.src = C.logo;
+    // already cached (e.g. same logo across cards): reveal immediately
+    if (img.complete && img.naturalWidth > 0) img.classList.add('loaded');
+  } else {
+    img.onload = img.onerror = null;
+    img.removeAttribute('src');
+  }
+
+  document.getElementById('name').textContent    = C.fullName;
+  document.getElementById('title').textContent   = C.title;
+  document.getElementById('company').textContent = C.company;
+  document.getElementById('tagline').textContent = C.tagline;
+  document.getElementById('about').textContent   = C.about;
+  document.title = `${C.fullName} — ${C.company}`;
+
+  const quickItems = [
+    { type:'phone',    label:'Call',    url:`tel:${C.phone}` },
+    { type:'whatsapp', label:'WhatsApp',url:`https://wa.me/${C.whatsapp}` },
+    { type:'email',    label:'Email',   url:`mailto:${C.email}` },
+    { type:'website',  label:'Website', url:C.website },
+  ];
+  document.getElementById('quick').innerHTML = quickItems.map(q =>
+    `<a href="${q.url}" target="_blank" rel="noopener">${ICONS[q.type]}<span>${q.label}</span></a>`
+  ).join('');
+
+  document.getElementById('links').innerHTML = C.links.map(l => `
+    <a class="link" href="${l.url}" target="_blank" rel="noopener">
+      <span class="icon">${ICONS[l.type] || ICONS.custom}</span>
+      <span class="meta"><span class="label">${l.label}</span><span class="value">${l.value}</span></span>
+      ${CHEVRON}
+    </a>`).join('');
+
+  // close lead form on card switch
+  document.getElementById('leadForm').classList.remove('open');
+
+  renderQR();
+}
+
+/* ---------------- QR ---------------- */
+function qrApiUrl(){
+  const data = encodeURIComponent(cardUrl(activeId));
+  const { dark, light } = SETTINGS.qr;
+  return `https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=0&qzone=1&color=${dark}&bgcolor=${light}&data=${data}`;
+}
+function renderQR(){
+  document.getElementById('qrImg').src = qrApiUrl();
+}
+
+/* ---------------- Actions ---------------- */
+function buildVCard(C){
+  const socials = C.links
+    .filter(l => ['instagram','linkedin','github','facebook','twitter','youtube','website','pinterest'].includes(l.type))
+    .map(l => `URL;type=${l.label}:${l.url}`).join('\n');
+  return [
+    'BEGIN:VCARD','VERSION:3.0',
+    `N:${C.lastName};${C.firstName};;;`,
+    `FN:${C.fullName}`,
+    `ORG:${C.company}`,
+    `TITLE:${C.title}`,
+    `TEL;type=CELL;type=VOICE;type=pref:${C.phone}`,
+    `TEL;type=WORK;type=VOICE:+${C.whatsapp}`,
+    `EMAIL;type=INTERNET;type=WORK;type=pref:${C.email}`,
+    `URL:${C.website}`,
+    socials,
+    `ADR;type=WORK:;;${C.location};;;;`,
+    `NOTE:${C.about}`,
+    'END:VCARD'
+  ].filter(Boolean).join('\n');
+}
+
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const C = CARDS[activeId];
+  const blob = new Blob([buildVCard(C)], { type:'text/vcard;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `${C.fullName.replace(/\s+/g,'_')}.vcf`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  toast('Contact downloaded — open it to add to your phone');
+});
+
+document.getElementById('exchangeBtn').addEventListener('click', () => {
+  const f = document.getElementById('leadForm');
+  f.classList.toggle('open');
+  if (f.classList.contains('open')) document.getElementById('leadName').focus();
+});
+
+document.getElementById('leadForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name  = document.getElementById('leadName').value.trim();
+  const phone = document.getElementById('leadPhone').value.trim();
+  const email = document.getElementById('leadEmail').value.trim();
+  const note  = document.getElementById('leadNote').value.trim();
+  if (!name || !phone){ toast('Please add your name and phone'); return; }
+  const C = CARDS[activeId];
+  const lines = [
+    `New enquiry from your ${C.fullName} card:`, '',
+    `Name: ${name}`, `Phone: ${phone}`,
+    email ? `Email: ${email}` : '',
+    note ? `Message: ${note}` : ''
+  ].filter(Boolean).join('\n');
+  window.open(`https://wa.me/${SETTINGS.leadWhatsApp}?text=${encodeURIComponent(lines)}`, '_blank');
+  toast('Opening WhatsApp…');
+});
+
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  const C = CARDS[activeId];
+  const shareData = { title:`${C.fullName} — ${C.company}`, text:`Connect with ${C.fullName}`, url:cardUrl(activeId) };
+  try {
+    if (navigator.share){ await navigator.share(shareData); return; }
+    await navigator.clipboard.writeText(shareData.url);
+    toast('Link copied to clipboard');
+  } catch(_){}
+});
+
+document.getElementById('qrCopy').addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(cardUrl(activeId)); toast('Card link copied'); }
+  catch(_){ toast(cardUrl(activeId)); }
+});
+
+document.getElementById('qrDownload').addEventListener('click', async () => {
+  const url = qrApiUrl();
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const obj = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = obj; a.download = `jyory-${activeId}-qr.png`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(obj), 1500);
+    toast('QR code downloaded');
+  } catch(_){
+    window.open(url, '_blank');   // fallback: open image, long-press to save
+  }
+});
+
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+});
+
+/* ---------------- Toast ---------------- */
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ---------------- Init ---------------- */
+(function init(){
+  let initial = SETTINGS.defaultTheme || 'dark';
+  try { initial = localStorage.getItem(THEME_KEY) || initial; } catch(_){}
+  applyTheme(initial);
+  renderSwitcher();
+  renderCard();
+})();
+</script>
+</body>
+</html>
