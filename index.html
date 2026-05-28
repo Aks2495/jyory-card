@@ -243,12 +243,19 @@ const CARDS = {
   /* ---------- Quick actions ---------- */
   .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:18px 24px 4px}
   .quick a{
-    display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:14px;
+    display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 6px;border-radius:14px;
     background:var(--surface);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:11px;font-weight:500;
     transition:background .15s ease, transform .15s ease, border-color .15s ease;
   }
   .quick a:hover{background:var(--surface-hover);border-color:var(--border-hover);transform:translateY(-1px)}
-  .quick a svg{width:20px;height:20px;color:var(--gold1)}
+  .quick .qi{
+    flex:0 0 auto;width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg, rgba(246,210,122,.2), rgba(201,150,47,.08));
+    border:1px solid rgba(246,210,122,.28);
+  }
+  .quick .qi svg{width:20px;height:20px;color:var(--gold1);flex:0 0 auto;display:block}
+  .quick .ql{font-size:11px;font-weight:500;line-height:1}
 
   /* ---------- Links ---------- */
   .links{padding:18px 24px 8px;display:flex;flex-direction:column;gap:10px}
@@ -521,7 +528,7 @@ function renderCard(){
     { type:'website',  label:'Website', url:C.website },
   ];
   document.getElementById('quick').innerHTML = quickItems.map(q =>
-    `<a href="${q.url}" target="_blank" rel="noopener">${ICONS[q.type]}<span>${q.label}</span></a>`
+    `<a href="${q.url}" target="_blank" rel="noopener"><span class="qi">${ICONS[q.type]}</span><span class="ql">${q.label}</span></a>`
   ).join('');
 
   document.getElementById('links').innerHTML = C.links.map(l => `
