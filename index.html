@@ -49,15 +49,17 @@ const SETTINGS = {
   themes: {
     dark: {
       bg1:"#070d24", bg2:"#0a1230", card:"#0e1638", cardEdge:"#1a2350",
-      surface:"rgba(255,255,255,.03)", surfaceHover:"rgba(246,210,122,.08)",
-      border:"rgba(255,255,255,.06)", borderHover:"rgba(246,210,122,.3)",
-      gold1:"#f6d27a", gold2:"#c9962f", text:"#f5efe0", muted:"#a8b0c7", ctaText:"#0a1230",
+      cardBg:"Dark.png",   // card background image; "" = plain colour
+      surface:"rgba(255,255,255,.04)", surfaceHover:"rgba(246,210,122,.12)",
+      border:"rgba(255,255,255,.08)", borderHover:"rgba(246,210,122,.35)",
+      gold1:"#f6d27a", gold2:"#c9962f", text:"#f5efe0", muted:"#c2c8dc", ctaText:"#0a1230",
     },
     light: {
       bg1:"#faf6ec", bg2:"#ede2c8", card:"#ffffff", cardEdge:"#e6dcc2",
-      surface:"#faf5e8", surfaceHover:"#f3e9cf",
-      border:"#ece2c8", borderHover:"#c9962f",
-      gold1:"#c9962f", gold2:"#8a6510", text:"#1d1a2c", muted:"#6b6478", ctaText:"#ffffff",
+      cardBg:"Light.png",
+      surface:"rgba(255,255,255,.55)", surfaceHover:"rgba(255,255,255,.8)",
+      border:"rgba(201,150,47,.25)", borderHover:"#c9962f",
+      gold1:"#a9781f", gold2:"#7a5810", text:"#241f12", muted:"#5c5340", ctaText:"#ffffff",
     },
   },
 };
@@ -166,11 +168,12 @@ const CARDS = {
   /* ---------- Card ---------- */
   .card{
     position:relative;z-index:1;width:100%;max-width:440px;
-    background:linear-gradient(180deg, var(--card) 0%, #0b1230 100%);
+    background-color:var(--card);
+    background-image:var(--card-bg);
+    background-size:cover;background-position:center top;background-repeat:no-repeat;
     border:1px solid var(--card-edge);border-radius:28px;overflow:hidden;
     box-shadow:0 30px 80px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.03) inset;
   }
-  [data-theme="light"] .card{background:linear-gradient(180deg,#fff 0%,#fbf6ea 100%)}
   .card::before,.card::after{
     content:"";position:absolute;top:50%;width:10px;height:120px;
     background:linear-gradient(180deg,var(--gold1),var(--gold2));
@@ -455,6 +458,15 @@ function applyTheme(name){
     '--surface':t.surface,'--surface-hover':t.surfaceHover,'--border':t.border,'--border-hover':t.borderHover,
     '--gold1':t.gold1,'--gold2':t.gold2,'--text':t.text,'--muted':t.muted,'--cta-text':t.ctaText
   })) r.setProperty(k,v);
+  // card background image + readability scrim
+  let cardBg = 'none';
+  if (t.cardBg){
+    const scrim = (name === 'light')
+      ? 'linear-gradient(180deg, rgba(255,251,242,.55), rgba(249,242,228,.66))'
+      : 'linear-gradient(180deg, rgba(8,13,33,.45), rgba(8,13,33,.60))';
+    cardBg = `${scrim}, url("${t.cardBg}")`;
+  }
+  r.setProperty('--card-bg', cardBg);
   document.documentElement.setAttribute('data-theme', name);
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', t.bg2);
