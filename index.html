@@ -68,7 +68,8 @@ const CARDS = {
   // ——————————————————— CARD 1: Akshay (personal) ———————————————————
   akshay: {
     tabLabel:  "Akshay",
-    logo:      "logo-akshay.png",     // file next to index.html; blank "" = SVG mark
+    logo:      "logo-akshay.png",     // dark-mode logo (next to index.html); "" = SVG mark
+    logoLight: "logo-akshay-light.png", // light-mode logo; "" = reuse the dark one
     fullName:  "Akshay Sanghvi",
     firstName: "Akshay",
     lastName:  "Sanghvi",
@@ -102,6 +103,7 @@ const CARDS = {
   store: {
     tabLabel:  "Jyory Store",
     logo:      "logo-store.png",
+    logoLight: "logo-store-light.png",
     fullName:  "JYORY",
     firstName: "Jyory",
     lastName:  "",
@@ -200,9 +202,9 @@ const CARDS = {
   .hero{padding:34px 28px 22px;text-align:center;position:relative}
   .avatar{
     width:260px;max-width:100%;height:120px;margin:0 auto 18px;border-radius:18px;
-    background:linear-gradient(135deg, #11183a 0%, #070d24 100%);
-    border:1px solid rgba(246,210,122,.25);display:flex;align-items:center;justify-content:center;
-    box-shadow:0 14px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);
+    background:var(--logo-plate);
+    border:1px solid var(--logo-plate-edge);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 14px 32px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.06);
     overflow:hidden;position:relative;padding:14px;
   }
   .avatar img{max-width:100%;max-height:100%;object-fit:contain;display:block;opacity:0;transition:opacity .25s ease}
@@ -338,10 +340,11 @@ const CARDS = {
   }
 
   :root{
-    --bg1:#070d24;--bg2:#0a1230;--card:#0e1638;--card-edge:#1a2350;
+    --bg1:#070d24;--bg2:#0a1230;--card:#0e1638;--card-edge:#1a2350;--card-bg:none;
     --surface:rgba(255,255,255,.03);--surface-hover:rgba(246,210,122,.08);
     --border:rgba(255,255,255,.06);--border-hover:rgba(246,210,122,.3);
     --gold1:#f6d27a;--gold2:#c9962f;--text:#f5efe0;--muted:#a8b0c7;--cta-text:#0a1230;
+    --logo-plate:linear-gradient(135deg, #11183a 0%, #070d24 100%);--logo-plate-edge:rgba(246,210,122,.25);
   }
 </style>
 </head>
@@ -467,6 +470,12 @@ function applyTheme(name){
     cardBg = `${scrim}, url("${t.cardBg}")`;
   }
   r.setProperty('--card-bg', cardBg);
+  // logo plate adapts to theme (navy in dark, cream in light)
+  r.setProperty('--logo-plate', name === 'light'
+    ? 'linear-gradient(135deg, #fffdf8 0%, #f1e7cf 100%)'
+    : 'linear-gradient(135deg, #11183a 0%, #070d24 100%)');
+  r.setProperty('--logo-plate-edge', name === 'light'
+    ? 'rgba(201,150,47,.45)' : 'rgba(246,210,122,.25)');
   document.documentElement.setAttribute('data-theme', name);
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', t.bg2);
@@ -507,23 +516,28 @@ function switchCard(id){
   window.scrollTo({ top:0, behavior:'smooth' });
 }
 
-function renderCard(){
+// picks logoLight in light mode (falls back to logo); SVG mark shows if none load
+function refreshLogo(){
   const C = CARDS[activeId];
-
-  // logo (img on top; SVG mark shows behind when img isn't loaded)
+  const theme = document.documentElement.getAttribute('data-theme');
+  const chosen = (theme === 'light' && C.logoLight) ? C.logoLight : C.logo;
   const img = document.getElementById('avatarImg');
   img.classList.remove('loaded');
-  if (C.logo){
+  if (chosen){
     img.onload  = () => img.classList.add('loaded');
-    img.onerror = () => img.classList.remove('loaded');   // SVG fallback shows
+    img.onerror = () => img.classList.remove('loaded');
     img.alt = C.company || C.fullName;
-    img.src = C.logo;
-    // already cached (e.g. same logo across cards): reveal immediately
+    img.src = chosen;
     if (img.complete && img.naturalWidth > 0) img.classList.add('loaded');
   } else {
     img.onload = img.onerror = null;
     img.removeAttribute('src');
   }
+}
+
+function renderCard(){
+  const C = CARDS[activeId];
+  refreshLogo();
 
   document.getElementById('name').textContent    = C.fullName;
   document.getElementById('title').textContent   = C.title;
@@ -656,6 +670,7 @@ document.getElementById('qrDownload').addEventListener('click', async () => {
 document.getElementById('themeBtn').addEventListener('click', () => {
   const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   applyTheme(next);
+  refreshLogo();
 });
 
 /* ---------------- Toast ---------------- */
